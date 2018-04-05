@@ -1,3 +1,15 @@
+
+Setup Instructions:
+sudo apt-get  install libxml2 libxml2-dev libxslt-dev build-essential python-dev python-libxml2 python-virtualenv
+clone the project
+cd webvirtmgt
+mkdir env
+virtualenv --system-site-packages env
+env/bin/activate
+pip install -r requirements.txt
+
+
+
 =========================
 WebVirtMgr panel - v4.8.9
 =========================
