@@ -1,9 +1,10 @@
 {% load i18n %}
 {% load tags_active %}
+{% load restrict_filter %}
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
-            <a href="{% url 'create' host_id %}" class="btn btn-sm btn-success pull-right">{% trans "New Instance" %}</a>
+            <a href="{% url 'create' host_id %}" class="btn btn-sm btn-success pull-right {% hide 'New Instance' %}">{% trans "New Instance" %}</a>
             <h1><a href="{% url 'overview' host_id %}">{{ compute.name }}</a></h1>
         </div>
     </div>
@@ -11,27 +12,27 @@
 <div class="row">
     <div class="sidebar col-xs-12 col-sm-3">
         <ul>
-            <li>
+            <li class="{% hide 'Instances' %}">
                 <a href="{% url 'instances' host_id %}"
                    class="list {% active request "^/instance" %}">{% trans "Instances" %}</a>
             </li>
-            <li>
+            <li class="{% hide 'Storages' %}">
                 <a href="{% url 'storages' host_id %}"
                    class="list {% active request "^/storage" %}">{% trans "Storages" %}</a>
             </li>
-            <li>
+            <li class="{% hide 'Networks' %}">
                 <a href="{% url 'networks' host_id %}"
                    class="list {% active request "^/network" %}">{% trans "Networks" %}</a>
             </li>
-            <li>
+            <li class="{% hide 'Interfaces' %}">
                 <a href="{% url 'interfaces' host_id %}"
                    class="list {% active request "^/interface" %}">{% trans "Interfaces" %}</a>
             </li>
-            <li>
+            <li class="{% hide 'Secrets' %}">
                 <a href="{% url 'secrets' host_id %}"
                    class="list {% active request "^/secrets" %}">{% trans "Secrets" %}</a>
             </li>
-            <li>
+            <li class="{% hide 'Overview' %}">
                 <a href="{% url 'overview' host_id %}" class="list {% active request "^/host" %}">{% trans "Overview" %}</a>
             </li>
         </ul>

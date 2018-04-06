@@ -17,7 +17,7 @@ from vrtManager.instance import wvmInstances, wvmInstance
 
 from libvirt import libvirtError, VIR_DOMAIN_XML_SECURE
 from webvirtmgr.settings import TIME_JS_REFRESH, QEMU_KEYMAPS, QEMU_CONSOLE_TYPES
-
+from webvirtmgr.decorators import restrict_infrastructure
 
 def instusage(request, host_id, vname):
     """
@@ -247,7 +247,7 @@ def insts_status(request, host_id):
     response.write(data)
     return response
 
-
+@restrict_infrastructure('Instances')
 def instances(request, host_id):
     """
     Instances block

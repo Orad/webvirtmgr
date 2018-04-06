@@ -14,7 +14,9 @@ from vrtManager.create import wvmCreate
 from vrtManager import util
 from create.forms import FlavorAddForm, NewVMForm
 
+from webvirtmgr.decorators import restrict_infrastructure
 
+@restrict_infrastructure('New Instance')
 def create(request, host_id):
     """
     Create new instance.

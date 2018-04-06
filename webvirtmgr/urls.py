@@ -1,5 +1,8 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'servers.views.index', name='index'),
@@ -23,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^info/insts_status/(\d+)/$', 'instance.views.insts_status', name='insts_status'),
     url(r'^info/inst_status/(\d+)/([\w\-\.]+)/$', 'instance.views.inst_status', name='inst_status'),
     url(r'^info/instusage/(\d+)/([\w\-\.]+)/$', 'instance.views.instusage', name='instusage'),
+    url(r'^admin/', include(admin.site.urls)),
 )
 
 urlpatterns += patterns('',

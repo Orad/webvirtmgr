@@ -11,7 +11,9 @@ from vrtManager.storage import wvmStorage, wvmStorages
 
 from libvirt import libvirtError
 
+from webvirtmgr.decorators import restrict_infrastructure
 
+@restrict_infrastructure('Storages')
 def storages(request, host_id):
     """
     Storage pool block

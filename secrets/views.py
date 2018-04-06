@@ -10,7 +10,9 @@ from vrtManager.secrets import wvmSecrets
 
 from libvirt import libvirtError
 
+from webvirtmgr.decorators import restrict_infrastructure
 
+@restrict_infrastructure('Secrets')
 def secrets(request, host_id):
     """
     Networks block

@@ -1,0 +1,74 @@
+[
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 1,
+    "fields": {
+      "is_hidden": false,
+      "title": "New Instance"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 2,
+    "fields": {
+      "is_hidden": false,
+      "title": "Overview"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 3,
+    "fields": {
+      "is_hidden": false,
+      "title": "Secrets"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 4,
+    "fields": {
+      "is_hidden": false,
+      "title": "Interfaces"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 5,
+    "fields": {
+      "is_hidden": false,
+      "title": "Networks"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 6,
+    "fields": {
+      "is_hidden": false,
+      "title": "Storages"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 7,
+    "fields": {
+      "is_hidden": false,
+      "title": "Instances"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 8,
+    "fields": {
+      "is_hidden": false,
+      "title": "Create Instance"
+    }
+  },
+  {
+    "model": "restrict.RestrictInfrastructure",
+    "pk": 9,
+    "fields": {
+      "is_hidden": false,
+      "title": "Delete Instance"
+    }
+  }
+]

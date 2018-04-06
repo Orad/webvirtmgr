@@ -12,7 +12,10 @@ from vrtManager.network import network_size
 
 from libvirt import libvirtError
 
+from webvirtmgr.decorators import restrict_infrastructure
 
+
+@restrict_infrastructure('Networks')
 def networks(request, host_id):
     """
     Networks block

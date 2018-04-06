@@ -10,7 +10,9 @@ from vrtManager.interface import wvmInterface, wvmInterfaces
 
 from libvirt import libvirtError
 
+from webvirtmgr.decorators import restrict_infrastructure
 
+@restrict_infrastructure('Interfaces')
 def interfaces(request, host_id):
     """
     Interfaces block

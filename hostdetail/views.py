@@ -11,6 +11,7 @@ from servers.models import Compute
 from vrtManager.hostdetails import wvmHostDetails
 from webvirtmgr.settings import TIME_JS_REFRESH
 
+from webvirtmgr.decorators import restrict_infrastructure
 
 def hostusage(request, host_id):
     """
@@ -100,7 +101,7 @@ def hostusage(request, host_id):
     response.write(data)
     return response
 
-
+@restrict_infrastructure('Overview')
 def overview(request, host_id):
     """
     Overview page.
