@@ -27,8 +27,8 @@ urlpatterns = patterns('',
     url(r'^info/inst_status/(\d+)/([\w\-\.]+)/$', 'instance.views.inst_status', name='inst_status'),
     url(r'^info/instusage/(\d+)/([\w\-\.]+)/$', 'instance.views.instusage', name='instusage'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('instance.api.v1.urls')),
 )
-
 urlpatterns += patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )

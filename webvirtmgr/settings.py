@@ -215,4 +215,5 @@ INSTALLED_APPS = (
     'create',
     'gunicorn',
     'restrict',
+    'rest_framework',
 )
