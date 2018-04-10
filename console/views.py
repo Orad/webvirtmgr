@@ -6,9 +6,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from instance.models import Instance
-from vrtManager.instance import wvmInstance
-
+from webvirtmgr.utils import secret_key
 from webvirtmgr.settings import WS_PORT
+from vrtManager.instance import wvmInstance
 from webvirtmgr.settings import WS_PUBLIC_HOST
 
 
@@ -57,3 +57,24 @@ def console(request):
 
     response.set_cookie('token', token)
     return response
+
+def key_console(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('login'))
+    return render_to_response('key_console.html', locals(), context_instance=RequestContext(request))
+
+def generate_api_key(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('login'))
+    user_detail = request.user.user_detail
+    user_detail.token = secret_key.get_jwt_token()
+    user_detail.save()
+    return HttpResponseRedirect(reverse('key_console'))
+
+def delete_api_key(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('login'))
+    user_detail = request.user.user_detail
+    user_detail.token = ""
+    user_detail.save()
+    return HttpResponseRedirect(reverse('key_console'))

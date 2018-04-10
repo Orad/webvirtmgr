@@ -217,3 +217,6 @@ INSTALLED_APPS = (
     'restrict',
     'rest_framework',
 )
+JWT_AUD = None
+JWT_TYPE = None
+JWT_ISSUER = None

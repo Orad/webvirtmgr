@@ -25,9 +25,11 @@ def patch_view_decorator(dec):
 
 def token_required(verify_token):
     def wrapper(request, *args, **kwargs):
+        if "HTTP_AUTHORIZATION" not in request.META:
+            return HttpResponse(json.dumps({"data":{}, "message": "Token is not valid!"}),content_type="application/json",status=status.HTTP_404_NOT_FOUND)
+
         token = request.META["HTTP_AUTHORIZATION"]
         user_token = User.objects.all()[0].user_detail.token
-        print user_token
         if token != user_token:
             return HttpResponse(json.dumps({"data":{}, "message": "Token is not valid!"}),content_type="application/json",status=status.HTTP_404_NOT_FOUND)
         return verify_token(request, *args, **kwargs)    

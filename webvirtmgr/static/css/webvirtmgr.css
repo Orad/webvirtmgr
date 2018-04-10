@@ -213,3 +213,9 @@ p {
 #viewXMLpre .pre-scrollable {
     width: 100%;
 }
+.mrg-top-35{
+    margin-top: 35px !important;
+}
+.break-word{
+    word-wrap: break-word;
+}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "Console" %}{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+    {% if not user.user_detail.token %}
+        <div class="well">
+            <h4>{% trans "You do not have key. Please generate new one" %}
+            <br>
+            <a href="{% url 'generate_api_key' %}" class="btn btn-success mrg-top-35">{% trans "Generate" %}</a></h4>
+        </div>
+    {% else %}
+        <div class="well">
+            <h4 class="break-word">{{user.user_detail.token}}<br>
+            <a href="{% url 'delete_api_key' %}" class="btn btn-danger mrg-top-35">{% trans "Delete" %}</a></h4>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}

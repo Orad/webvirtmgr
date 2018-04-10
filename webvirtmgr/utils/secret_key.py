@@ -13,10 +13,15 @@
 #    under the License.
 from __future__ import with_statement  # Python 2.5 compliance
 
-import lockfile
 import os
+import time
 import random
 import string
+import base64
+import lockfile
+from jose import jwt
+
+from django.conf import settings
 
 
 class FilePermissionError(Exception):
@@ -62,3 +67,18 @@ def generate_or_read_from_file(key_file='.secret_key', key_length=64):
             with open(key_file, 'r') as f:
                 key = f.readline()
         return key
+
+def get_jwt_token(data={}):
+   decoded_secret = base64.urlsafe_b64decode(settings.SECRET_KEY)
+   # Add 12 hour in current timestamp to get expire timestamp
+   exp_timestamp = int(time.time()) + (12 * 3600)
+   data.update({
+       'iat': int(time.time()),
+       'iss': settings.JWT_ISSUER,
+       'exp': exp_timestamp,
+       'typ': settings.JWT_TYPE,
+       'aud': settings.JWT_AUD,
+   })
+   encoded_jws_token = jwt.encode(
+       data, decoded_secret, algorithm='HS256', headers=None)
+   return encoded_jws_token
