@@ -216,6 +216,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'restrict',
     'rest_framework',
+    'organizations',
 )
 JWT_AUD = None
 JWT_TYPE = None

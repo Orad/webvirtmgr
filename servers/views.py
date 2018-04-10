@@ -29,7 +29,7 @@ def servers_list(request):
     """
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('login'))
-
+    organization = request.user.organizations.organization
     def get_hosts_status(hosts):
         """
         Function return all hosts all vds on host
@@ -46,7 +46,7 @@ def servers_list(request):
                               })
         return all_hosts
 
-    computes = Compute.objects.filter()
+    computes = Compute.objects.filter(organization=organization)
     hosts_info = get_hosts_status(computes)
     form = None
 
@@ -68,7 +68,8 @@ def servers_list(request):
                                        hostname=data['hostname'],
                                        type=CONN_TCP,
                                        login=data['login'],
-                                       password=data['password'])
+                                       password=data['password'],
+                                       organization=organization)
                 new_tcp_host.save()
                 return HttpResponseRedirect(request.get_full_path())
         if 'host_ssh_add' in request.POST:
@@ -78,7 +79,8 @@ def servers_list(request):
                 new_ssh_host = Compute(name=data['name'],
                                        hostname=data['hostname'],
                                        type=CONN_SSH,
-                                       login=data['login'])
+                                       login=data['login'],
+                                       organization=organization)
                 new_ssh_host.save()
                 return HttpResponseRedirect(request.get_full_path())
         if 'host_tls_add' in request.POST:
@@ -89,7 +91,8 @@ def servers_list(request):
                                        hostname=data['hostname'],
                                        type=CONN_TLS,
                                        login=data['login'],
-                                       password=data['password'])
+                                       password=data['password'],
+                                       organization=organization)
                 new_tls_host.save()
                 return HttpResponseRedirect(request.get_full_path())
 
@@ -113,7 +116,8 @@ def servers_list(request):
                                           hostname='localhost',
                                           type=CONN_SOCKET,
                                           login='',
-                                          password='')
+                                          password='',
+                                          organization=organization)
                 new_socket_host.save()
                 return HttpResponseRedirect(request.get_full_path())
 
@@ -126,8 +130,9 @@ def infrastructure(request):
     """
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('login'))
-
-    compute = Compute.objects.filter()
+    organization = request.user.organizations.organization
+    
+    compute = Compute.objects.filter(organization=organization)
     hosts_vms = {}
 
     for host in compute:
