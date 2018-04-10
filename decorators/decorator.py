@@ -5,7 +5,8 @@ from rest_framework import status
 from django.shortcuts import HttpResponse
 from django.utils.decorators import method_decorator
 
-from django.contrib.auth.models import User
+from servers.models import Compute
+from organizations.models import Organization
 
 
 class _cbv_decorate(object):
@@ -29,8 +30,17 @@ def token_required(verify_token):
             return HttpResponse(json.dumps({"data":{}, "message": "Token is not valid!"}),content_type="application/json",status=status.HTTP_404_NOT_FOUND)
 
         token = request.META["HTTP_AUTHORIZATION"]
-        user_token = User.objects.all()[0].user_detail.token
-        if token != user_token:
+
+        try:
+            organization = Organization.objects.get(token=token)
+        except Organization.DoesNotExist as err:
             return HttpResponse(json.dumps({"data":{}, "message": "Token is not valid!"}),content_type="application/json",status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            host_id = request.resolver_match.kwargs['host_id']
+            compute = Compute.objects.get(id=host_id,organization=organization)
+        except Compute.DoesNotExist as err:
+            return HttpResponse(json.dumps({"data":{}, "message": "1Token is not valid!"}),content_type="application/json",status=status.HTTP_404_NOT_FOUND)
+        
         return verify_token(request, *args, **kwargs)    
     return wrapper

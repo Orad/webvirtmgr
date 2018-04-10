@@ -66,15 +66,15 @@ def key_console(request):
 def generate_api_key(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('login'))
-    user_detail = request.user.user_detail
-    user_detail.token = secret_key.get_jwt_token()
-    user_detail.save()
+    organization = request.user.organizations.organization
+    organization.token = secret_key.get_jwt_token()
+    organization.save()
     return HttpResponseRedirect(reverse('key_console'))
 
 def delete_api_key(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('login'))
-    user_detail = request.user.user_detail
-    user_detail.token = ""
-    user_detail.save()
+    organization = request.user.organizations.organization
+    organization.token = ""
+    organization.save()
     return HttpResponseRedirect(reverse('key_console'))

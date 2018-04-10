@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if not user.user_detail.token %}
+    {% if not user.organizations.organization.token %}
         <div class="well">
             <h4>{% trans "You do not have key. Please generate new one" %}
             <br>
@@ -15,7 +15,7 @@
         </div>
     {% else %}
         <div class="well">
-            <h4 class="break-word">{{user.user_detail.token}}<br>
+            <h4 class="break-word">{{user.organizations.organization.token}}<br>
             <a href="{% url 'delete_api_key' %}" class="btn btn-danger mrg-top-35">{% trans "Delete" %}</a></h4>
         </div>
     {% endif %}

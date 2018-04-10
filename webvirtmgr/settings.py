@@ -217,6 +217,7 @@ INSTALLED_APPS = (
     'restrict',
     'rest_framework',
     'organizations',
+    'south',
 )
 JWT_AUD = None
 JWT_TYPE = None
