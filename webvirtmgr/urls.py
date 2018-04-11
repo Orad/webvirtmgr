@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^delete_api_key/$', 'console.views.delete_api_key', name='delete_api_key'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('instance.api.v1.urls')),
+    url(r'^accounts/', include('allauth.urls')),
 )
 urlpatterns += patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
