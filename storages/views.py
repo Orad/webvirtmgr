@@ -19,7 +19,7 @@ def storages(request, host_id):
     Storage pool block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     errors = []
     compute = Compute.objects.get(id=host_id)
@@ -71,7 +71,7 @@ def storage(request, host_id, pool):
     Storage pool block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     def handle_uploaded_file(path, f_name):
         target = path + '/' + str(f_name)

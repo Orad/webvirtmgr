@@ -18,7 +18,7 @@ def index(request):
 
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     else:
         return HttpResponseRedirect(reverse('servers_list'))
 
@@ -28,7 +28,7 @@ def servers_list(request):
     Servers page.
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     organization = request.user.organizations.organization
     def get_hosts_status(hosts):
         """
@@ -129,7 +129,7 @@ def infrastructure(request):
     Infrastructure page.
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     organization = request.user.organizations.organization
     
     compute = Compute.objects.filter(organization=organization)

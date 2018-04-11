@@ -22,7 +22,7 @@ def create(request, host_id):
     Create new instance.
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     conn = None
     errors = []

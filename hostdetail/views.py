@@ -18,7 +18,7 @@ def hostusage(request, host_id):
     Return Memory and CPU Usage
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     points = 5
     datasets = {}
@@ -107,7 +107,7 @@ def overview(request, host_id):
     Overview page.
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     errors = []
     time_refresh = TIME_JS_REFRESH

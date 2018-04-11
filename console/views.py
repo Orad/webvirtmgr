@@ -17,7 +17,7 @@ def console(request):
     Console instance block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     if request.method == 'GET':
         token = request.GET.get('token', '')
@@ -60,12 +60,12 @@ def console(request):
 
 def key_console(request):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     return render_to_response('key_console.html', locals(), context_instance=RequestContext(request))
 
 def generate_api_key(request):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     organization = request.user.organizations.organization
     organization.token = secret_key.get_jwt_token()
     organization.save()
@@ -73,7 +73,7 @@ def generate_api_key(request):
 
 def delete_api_key(request):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
     organization = request.user.organizations.organization
     organization.token = ""
     organization.save()

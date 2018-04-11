@@ -21,7 +21,7 @@ def networks(request, host_id):
     Networks block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     errors = []
     compute = Compute.objects.get(id=host_id)
@@ -64,7 +64,7 @@ def network(request, host_id, pool):
     Networks block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     errors = []
     compute = Compute.objects.get(id=host_id)

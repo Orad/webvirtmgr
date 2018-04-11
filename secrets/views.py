@@ -18,7 +18,7 @@ def secrets(request, host_id):
     Networks block
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('account_login'))
 
     errors = []
     secrets_all = []
