@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -31,8 +32,16 @@ urlpatterns = patterns('',
     url(r'^delete_api_key/$', 'console.views.delete_api_key', name='delete_api_key'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('instance.api.v1.urls')),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^signup/','allauth.account.views.signup', name="account_signup" ),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='account_login'),
+    url(r"^confirm-email/$", 'allauth.account.views.email_verification_sent',
+        name="account_email_verification_sent"),
+    url(r"^confirm-email/(?P<key>\w+)/$", 'allauth.account.views.confirm_email',
+        name="account_confirm_email"),
+    url(r"^confirm_email/(?P<key>\w+)/$",
+        RedirectView.as_view(url='/accounts/confirm-email/%(key)s/')),
 )
+
 urlpatterns += patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )

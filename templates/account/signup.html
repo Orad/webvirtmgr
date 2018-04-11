@@ -1,0 +1,29 @@
+{% extends "base_auth.html" %}
+{% load url from future %}
+{% load i18n %}
+{% block content %}
+<div class="row">
+    <div class="col-xs-12" role="main">
+    	
+        <form class="form-signin" id="signup_form" method="post" action="{% url 'account_signup' %}" role="form">
+			<center><h2 class="form-signin-heading">{% trans "Sign Up" %}</h2></center>
+			<!-- <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p> -->
+			{% csrf_token %}
+			<input type="text" autofocus="autofocus" id="id_username" maxlength="30" name="username" placeholder="Username" class="form-control">
+            <font color="red" >{{form.username.errors}}</font>
+			<input id="id_email" name="email" placeholder="E-mail address" type="text" class="form-control">
+            <font color="red" >	{{form.email.errors}}</font>		
+            <input id="id_password1" name="password1" placeholder="Password" type="password" class="form-control">
+			<font color="red" >{{form.password1.errors}}</font>
+            <input id="id_password2" name="password2" placeholder="Password Again" type="password" class="form-control">
+			<font color="red" >{{form.non_field_errors.errors}}</font>
+			{% if redirect_field_value %}
+				<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+			{% endif %}
+			<button class="btn btn-lg btn-success btn-block" type="submit">{% trans "Sign Up" %} </button>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+

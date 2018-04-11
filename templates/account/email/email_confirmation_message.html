@@ -1,0 +1,28 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans with current_site.name as site_name %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	
+</head>
+<body>
+ 
+<b style="font-size: 12px !important;"> Hello {{ user_display }},</b>
+<br>
+<p> This is a confirmation email from <b>Apri Ori Sh</b> 
+<p> To confirm this is your email <a href="{{ activate_url }}">confirm</a></b>
+This link will expire in 3 Days, so be sure to use it right away.
+<b style="font-size: 12px !important;"> 
+Thank you !
+Apri Ori Sh</b>
+</p>
+</body>
+</html>
+
+{% endblocktrans %}{% endautoescape %}

@@ -40,6 +40,9 @@
                     </li>
                 {% else %}
                     <li class="">
+                        <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+                    </li>
+                    <li class="">
                         <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
                     </li>
                 {% endif %}
