@@ -5,6 +5,7 @@
 {% block style %}
     <link href="{% static "css/table-sort.css" %}" rel="stylesheet">
 {% endblock %}
+{% load custom_filters %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
@@ -40,12 +41,17 @@
                 {% endfor %}
             </div>
         {% endif %}
+       
+        
             <div class="page-header">
+                {% if request.user|has_perm:"servers.add_compute" %}
                 <a data-toggle="modal" href="#addHost"
                    class="btn btn-sm btn-success pull-right">{% trans "Add Connection" %}</a>
-
+                {% endif %}
                 <h1>{% trans "Connections" %}</h1>
             </div>
+        
+
             <div class="row" role="main">
             {% if hosts_info %}
                 {% for host in hosts_info %}
@@ -73,11 +79,13 @@
                                 <p>
                                 <form action="" method="post" role="form">{% csrf_token %}
                                     <input type="hidden" name="host_id" value="{{ host.id }}">
+                                    {% if request.user|has_perm:"servers.delete_compute" %}
                                     <button type="submit" class="pull-right btn btn-xs btn-danger" name="host_del"
                                             title="{% trans "Delete" %}"
                                             onclick="return confirm('{% trans "Are you sure?" %}')">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
+                                    {% endif %}
                                 </form>
                                 <p>
                                 <p><strong>{% trans "Type" %}:</strong> [

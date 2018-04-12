@@ -12,4 +12,8 @@ def placeholder(value, token):
 
 @register.filter(name='addclass')
 def addclass(value, arg):
-   return value.as_widget(attrs={'class': arg})  
+    return value.as_widget(attrs={'class': arg})
+
+@register.filter(name='has_perm')
+def has_perm(value, perm):
+    return value.has_perm(perm)
