@@ -20,3 +20,8 @@ def user_signed_up_(request, user, **kwargs):
 
     user_organization = UserOrganization(user = user,organization = organization)
     user_organization.save()
+
+def random_username(sender, instance, **kwargs):
+    if not instance.id:
+        instance.username = instance.email
+models.signals.pre_save.connect(random_username, sender=User)
