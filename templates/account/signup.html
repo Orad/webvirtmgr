@@ -10,8 +10,6 @@
 			<center><h2 class="form-signin-heading">{% trans "Sign Up" %}</h2></center>
 			<!-- <p>{% blocktrans %}Already have an account? Then please <a href="{{ account_login }}">sign in</a>.{% endblocktrans %}</p> -->
 			{% csrf_token %}
-			<font color="red" >{{form.non_field_errors}}</font>
-			{{form.username | placeholder:"Username" | addclass:"form-control"}}
             <font color="red" >{{form.username.errors}}</font>
             {{form.email | placeholder:"E-mail address" | addclass:"form-control"}}
             <font color="red" >	{{form.email.errors}}</font>
