@@ -1,6 +1,8 @@
 {% extends "base_auth.html" %}
 {% load i18n %}
 {% load account %}
+{% load static %}
+{% load socialaccount %}
 {% load url from future %}
 
 {% block title %}{% trans "Sign In" %}{% endblock %}
@@ -22,6 +24,7 @@
                 <input id="id_password" name="password" class="form-control" placeholder="Password" type="password">
                 
                 <button class="btn btn-lg btn-success btn-block" type="submit">{% trans "Sign In" %}</button>
+                <a class="btn btn-lg btn-success btn-block github_button" href="{% provider_login_url 'github' %}"><img src="/static/img/github_icon.png" width="10%" height="10%" ></img>Login with GitHub</a>
             </form>
         </div>
     </div>

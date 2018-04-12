@@ -220,6 +220,9 @@ INSTALLED_APPS = (
     'south',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+
 )
 JWT_AUD = None
 JWT_TYPE = None
@@ -230,7 +233,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "allauth.account.context_processors.account",
     "django.contrib.auth.context_processors.auth",
-    # "allauth.socialaccount.context_processors.socialaccount",
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -255,3 +259,12 @@ EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/login/"
 LOGIN_REDIRECT_URL = "/servers/"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_USERNAME_REQUIRED = False
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+        ],
+    }
+}
+AUTO_SIGNUP = True

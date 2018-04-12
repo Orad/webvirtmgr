@@ -1,7 +1,9 @@
 {% extends "base_auth.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load static %}
 {% load custom_filters %}
+{% load socialaccount %}
 {% block content %}
 <div class="row">
     <div class="col-xs-12" role="main">
@@ -21,7 +23,10 @@
 				<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 			{% endif %}
 			<button class="btn btn-lg btn-success btn-block" type="submit">{% trans "Sign Up" %} </button>
+			<a class="btn btn-lg btn-success btn-block github_button" href="{% provider_login_url 'github' %}"><img src="/static/img/github_icon.png" width="10%" height="10%" ></img>Sign Up with GitHub</a>
 		</form>
+		
+		
 	</div>
 </div>
 {% endblock %}
