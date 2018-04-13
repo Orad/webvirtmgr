@@ -50,7 +50,9 @@ class ChangeStatus(generics.CreateAPIView):
                 elif 'resume' == vm_status:
                     conn.resume(name)
                     return Response({"data":data, "message": "Instance resume successfully!"}, status=status.HTTP_200_OK)
-
+                elif 'force_stop' == vm_status:
+                    conn.force_shutdown(name)
+                    return Response({"data":data, "message": "Instance Force Stop successfully!"}, status=status.HTTP_200_OK)
                 conn.close()
             except libvirtError as err:
                 return Response({"data":{}, "message": err.message}, status=status.HTTP_404_NOT_FOUND)
