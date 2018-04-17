@@ -21,11 +21,29 @@ class Compute(models.Model):
 @receiver(post_save, sender=Compute)
 def post_save_handler(sender, instance, *args, **kwargs):
     if instance:
-        queue = HotQueue("ComputeQueue", host="192.168.1.233")
-        queue.put({'event': "Created", 'data':instance})
+        if instance.type == 1:
+            url = 'qemu+tcp://%s/system' % instance.hostname
+        if instance.type == 2:
+            url = 'qemu+ssh://%s@%s/system' % (instance.login, instance.hostname)
+        if instance.type == 3:
+            url = 'qemu+tls://%s@%s/system' % (instance.login, instance.hostname)
+        if instance.type == 4:
+            url = 'qemu:///system'
+        data = [{ "url": url, "type": instance.type}]
+        queue = HotQueue("ComputeQueue")
+        queue.put({'event': "Created", 'data':data})
 
 @receiver(post_delete, sender=Compute)
 def post_delete_handler(sender, instance, *args, **kwargs):
     if instance:
+        if instance.type == 1:
+            url = 'qemu+tcp://%s/system' % instance.hostname
+        if instance.type == 2:
+            url = 'qemu+ssh://%s@%s/system' % (instance.login, instance.hostname)
+        if instance.type == 3:
+            url = 'qemu+tls://%s@%s/system' % (instance.login, instance.hostname)
+        if instance.type == 4:
+            url = 'qemu:///system'
+        data = [{ "url": url, "type": instance.type}]
         queue = HotQueue("ComputeQueue")
-        queue.put({'event': "Deleted", 'data':instance})
+        queue.put({'event': "Deleted", 'data':data})

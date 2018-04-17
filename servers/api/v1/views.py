@@ -19,15 +19,17 @@ class Connections2(generics.ListAPIView):
         data = []
         for compute in computes:
             if compute.type == 1 :
-                uri = 'qemu+tcp://%s/system' % compute.hostname
+                url = 'qemu+tcp://%s/system' % compute.hostname
             if compute.type == 2 :
-                uri = 'qemu+ssh://%s@%s/system' % (compute.login, compute.hostname)
+                url = 'qemu+ssh://%s@%s/system' % (compute.login, compute.hostname)
             if compute.type == 3 :
-                uri = 'qemu+tls://%s@%s/system' % (compute.login, compute.hostname)
+                url = 'qemu+tls://%s@%s/system' % (compute.login, compute.hostname)
             if compute.type == 4 :
-                uri = 'qemu:///system'
-            data.append({
-                "url": uri,
-                "type": compute.type,
-            })
+                url = 'qemu:///system'
+            append = True
+            for element in data:
+                if element['url'] == url:
+                    append = False
+            if append:
+                data.append({ "url": url, "type": compute.type})
         return Response(data)
