@@ -9,4 +9,4 @@ def get_connection(type, login, hostname):
         url = 'qemu+tls://%s@%s/system' % (login, hostname)
     if type == 4:
         url = 'qemu:///system'
-    return [{ "url": url, "type": type}]
+    return { "url": url, "type": type, "count":1}

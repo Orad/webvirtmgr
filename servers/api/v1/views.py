@@ -3,17 +3,10 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 from servers.models import Compute
-from servers.api.v1.serializers import ComputeSerializer
 
-class Connections1(generics.ListAPIView):
+
+class Connections(generics.ListAPIView):
     
-    queryset = Compute.objects.all()
-    serializer_class = ComputeSerializer
-
-class Connections2(generics.ListAPIView):
-    
-    serializer_class = ComputeSerializer
-
     def get(self, request):
         computes = Compute.objects.all()
         data = []

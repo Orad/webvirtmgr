@@ -132,12 +132,11 @@ class SaveEvent(generics.CreateAPIView):
     def post(self, request):
         data = request.DATA
         try:
-            print data['instance_name']
-            instance = Instance.objects.get(name=data['instance_name'])
-            running_history = RunningHistory(event=data['event'])
-            running_history.instance = instance
-            print running_history
-            running_history.save()
+            instances = Instance.objects.filter(name=data['instance_name'])
+            for instance in instances:
+                running_history = RunningHistory(event=data['event'])
+                running_history.instance = instance
+                running_history.save()
             return Response({"message": "Success"}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({"message": "failed"}, status=status.HTTP_404_NOT_FOUND)
