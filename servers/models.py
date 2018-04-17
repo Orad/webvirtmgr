@@ -1,5 +1,5 @@
 from hotqueue import HotQueue
-
+from webvirtmgr.utils.util import get_connection
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
@@ -19,31 +19,17 @@ class Compute(models.Model):
         return self.hostname
 
 @receiver(post_save, sender=Compute)
-def post_save_handler(sender, instance, *args, **kwargs):
-    if instance:
-        if instance.type == 1:
-            url = 'qemu+tcp://%s/system' % instance.hostname
-        if instance.type == 2:
-            url = 'qemu+ssh://%s@%s/system' % (instance.login, instance.hostname)
-        if instance.type == 3:
-            url = 'qemu+tls://%s@%s/system' % (instance.login, instance.hostname)
-        if instance.type == 4:
-            url = 'qemu:///system'
-        data = [{ "url": url, "type": instance.type}]
-        queue = HotQueue("ComputeQueue")
+def post_save_handler(sender, instance, created, *args, **kwargs):
+    data = get_connection(instance.type, instance.login, instance.hostname)
+    queue = HotQueue("ComputeQueue")
+    if created:
         queue.put({'event': "Created", 'data':data})
+    else:
+        queue.put({'event': "updated", 'data':data})
 
 @receiver(post_delete, sender=Compute)
 def post_delete_handler(sender, instance, *args, **kwargs):
     if instance:
-        if instance.type == 1:
-            url = 'qemu+tcp://%s/system' % instance.hostname
-        if instance.type == 2:
-            url = 'qemu+ssh://%s@%s/system' % (instance.login, instance.hostname)
-        if instance.type == 3:
-            url = 'qemu+tls://%s@%s/system' % (instance.login, instance.hostname)
-        if instance.type == 4:
-            url = 'qemu:///system'
-        data = [{ "url": url, "type": instance.type}]
+        data = get_connection(instance.type, instance.login, instance.hostname)
         queue = HotQueue("ComputeQueue")
         queue.put({'event': "Deleted", 'data':data})

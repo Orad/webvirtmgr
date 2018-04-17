@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
 
 from servers.models import Compute
 from instance.models import Instance, RunningHistory
@@ -130,10 +131,13 @@ class SaveEvent(generics.CreateAPIView):
 
     def post(self, request):
         data = request.DATA
-        runninghistory_serializer = RunningHistorySerializer(data=data,context={'request': request})
-        if runninghistory_serializer.is_valid():
-            running_history = runninghistory_serializer.save()
+        try:
+            print data['instance_name']
+            instance = Instance.objects.get(name=data['instance_name'])
+            running_history = RunningHistory(event=data['event'])
+            running_history.instance = instance
+            print running_history
+            running_history.save()
             return Response({"message": "Success"}, status=status.HTTP_200_OK)
-        else :
-            return Response({"message": "Error Occured"}, status=status.HTTP_400_BAD_REQUEST)
-        
+        except ObjectDoesNotExist:
+            return Response({"message": "failed"}, status=status.HTTP_404_NOT_FOUND)

@@ -5,8 +5,9 @@ from instance.models import RunningHistory
 
 # serializer class for Running History model
 class RunningHistorySerializer(serializers.ModelSerializer):
-	
+    instance_name = serializers.CharField()
+
     class Meta:
         model = RunningHistory
-        fields = ('instance', 'event')
+        fields = ('instance_name', 'event')
         
