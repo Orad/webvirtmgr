@@ -1,4 +1,5 @@
 from django.db import models
+
 from servers.models import Compute
 
 
@@ -11,3 +12,8 @@ class Instance(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class RunningHistory(models.Model):
+    instance = models.ForeignKey(Instance)
+    created_at = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=255)

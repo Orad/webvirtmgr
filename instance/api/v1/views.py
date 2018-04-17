@@ -6,8 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from servers.models import Compute
-from instance.models import Instance
+from instance.models import Instance, RunningHistory
 from vrtManager.instance import wvmInstances, wvmInstance
+from instance.api.v1.serializers import RunningHistorySerializer
 from decorators.decorator import ( patch_view_decorator, token_required )
 
 
@@ -122,3 +123,17 @@ class VMSnapshots(generics.CreateAPIView):
             return Response({"data":data, "message": "Snapshot deleted successfully!"}, status=status.HTTP_200_OK)
         except libvirtError as err:
            return Response({"data":{}, "message": "Something went wrong with connection!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class SaveEvent(generics.CreateAPIView):
+    serializer_class = RunningHistorySerializer
+
+    def post(self, request):
+        data = request.DATA
+        runninghistory_serializer = RunningHistorySerializer(data=data,context={'request': request})
+        if runninghistory_serializer.is_valid():
+            running_history = runninghistory_serializer.save()
+            return Response({"message": "Success"}, status=status.HTTP_200_OK)
+        else :
+            return Response({"message": "Error Occured"}, status=status.HTTP_400_BAD_REQUEST)
+        

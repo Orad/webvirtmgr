@@ -43,6 +43,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.socialaccount.providers.github.urls')),
     url(r'^social/signup/$', 'allauth.socialaccount.views.signup', name='socialaccount_signup'),
     url(r'^api/', include('instance.api.v1.urls')),
+    url(r'^api/', include('servers.api.v1.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 
