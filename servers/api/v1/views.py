@@ -29,7 +29,9 @@ class Connections2(generics.ListAPIView):
             append = True
             for element in data:
                 if element['url'] == url:
+                    element['count'] += 1
                     append = False
             if append:
-                data.append({ "url": url, "type": compute.type})
+                data.append({ "url": url, "type": compute.type,"count":1})
+                
         return Response(data)
