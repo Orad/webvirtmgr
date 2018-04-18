@@ -32,6 +32,7 @@ queue = HotQueue("ComputeQueue")
 ApiDomain = "http://127.0.0.1:8000"
 
 def event_lifecycle_callback(conn, dom, event, detail, opaque):
+    print "event_lifecycle_callback"
     url = '%s/api/save_event/'%(ApiDomain)
     data = {"instance_name": dom.name(),"event": VIR_DOMAIN_STATE_MAPPING.get(dom.state()[0], "?")}
     response = requests.post(url, data=data)
@@ -46,7 +47,44 @@ def conn_register_event_id_lifecycle(conn, url):
             connection["callback_id"] = callback_id
             connection["conn"] = conn
 
-def connect_socket():
+def libvirt_auth_credentials_callback(credentials, user_data):
+    for credential in credentials:
+        if credential[0] == libvirt.VIR_CRED_AUTHNAME:
+            credential[4] = self.login
+            if len(credential[4]) == 0:
+                credential[4] = credential[3]
+        elif credential[0] == libvirt.VIR_CRED_PASSPHRASE:
+            credential[4] = self.passwd
+        else:
+            return -1
+    return 0
+
+def connect_tcp(uri):
+    flags = [libvirt.VIR_CRED_AUTHNAME, libvirt.VIR_CRED_PASSPHRASE]
+    auth = [flags, libvirt_auth_credentials_callback, None]
+    try:
+        conn = libvirt.openAuth(uri, auth, 0)
+        conn_register_event_id_lifecycle(conn,uri)
+    except libvirtError as e:
+        print 'Connection Failed: ' + str(e)
+
+def connect_ssh(uri):
+    try:
+        conn = libvirt.open(uri)
+        conn_register_event_id_lifecycle(conn,uri)
+    except libvirtError as e:
+        print 'Connection Failed: ' + str(e)
+
+def connect_tls(uri):
+    flags = [libvirt.VIR_CRED_AUTHNAME, libvirt.VIR_CRED_PASSPHRASE]
+    auth = [flags, libvirt_auth_credentials_callback, None]
+    try:
+        conn = libvirt.openAuth(uri, auth, 0)
+        conn_register_event_id_lifecycle(conn,uri)
+    except libvirtError as e:
+        print 'Connection Failed: ' + str(e)
+
+def connect_local_socket():
     try:
         conn = libvirt.open('qemu:///system')
         conn_register_event_id_lifecycle(conn,"qemu:///system")
@@ -56,8 +94,15 @@ def connect_socket():
 response = requests.get("%s/api/connections/"%(ApiDomain))
 connections = response.json()
 for connection in connections:
+    print connection
+    if connection['type'] == 1:
+        connect_tcp(connection['url'])
+    if connection['type'] == 2:
+        connect_ssh(connection['url'])
+    if connection['type'] == 3:
+        connect_tls(connection['url'])
     if connection['type'] == 4:
-        connect_socket()
+        connect_local_socket()
 
 def register_connection():
     while True:
@@ -70,9 +115,19 @@ def register_connection():
                         conn['count'] += 1
                         append = False
                 if append:
+                    if connection["data"]["type"] == 1:
+                        connections.append(connection["data"])
+                        connect_tcp(connection["data"]["url"])
+                    if connection["data"]["type"] == 2:
+                        connections.append(connection["data"])
+                        connect_ssh(connection["data"]["url"])
+                    if connection["data"]["type"] == 3:
+                        connections.append(connection["data"])
+                        connect_tls(connection["data"]["url"])
                     if connection["data"]["type"] == 4:
                         connections.append(connection["data"])
-                        connect_socket()
+                        connect_local_socket()
+
             if connection["event"] == "Deleted":
                 for conn in connections:
                     if conn['url'] == connection["data"]["url"]:
