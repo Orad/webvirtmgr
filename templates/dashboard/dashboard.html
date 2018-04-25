@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% load custom_filters %}
+{% block content %}
+
+    <div class="page-header">
+        <h1>{% trans "Dashboard" %}</h1>
+    </div>
+    <div class="row" role="main">
+        <div class="col-xs-12 col-sm-4">
+            <div class="panel panel-info" id="dashboard-box">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Total Instances</strong> </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>{{total_instances}}</strong></p>
+                            </div>
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="panel panel-info" id="dashboard-box">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Total Today's Time</strong> </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>{{total_daily_time|convert_time}}</strong></p>
+                            </div>
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="panel panel-info" id="dashboard-box">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Total Monthly Time</strong> </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>{{total_monthly_time|convert_time}}</strong></p>
+                            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+            <table class="table" id="sortTable">
+            	<thead>
+            	<tr class="active">
+            		<th><font color="#2883AD">Instance Name</font></th>
+            		<th><font color="#2883AD">Today's Time</font></th>
+            		<th><font color="#2883AD">Monthly Time</font></th>
+            	</tr>
+            	</thead>
+            	<tbody>	
+            	{% for d in data %}
+            		<tr>
+            			<td><b>{{d.instance}}</b></td>
+            			<td><b>{{d.daily_time|convert_time}}</b></td>
+            			<td><b>{{d.total_time|convert_time}}</b></td>
+            		</tr>
+            	{% endfor %}
+            	</tbody> 
+            </table>
+          	
+            
+       
+    </div>
+{% endblock %}

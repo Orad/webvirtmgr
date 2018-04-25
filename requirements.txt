@@ -10,3 +10,4 @@ python-jose==2.0.2
 South==1.0.2
 django-allauth==0.15.0
 hotqueue==0.2.8
+django-cron==0.3.3

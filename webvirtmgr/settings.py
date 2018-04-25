@@ -104,6 +104,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+CRON_CLASSES = [
+    "dashboard.cron.MyCronJob",
+]
+
 ROOT_URLCONF = 'webvirtmgr.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -209,12 +213,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django_cron',
     'webvirtmgr',
     'servers',
     'instance',
     'create',
     'gunicorn',
     'restrict',
+    'dashboard',
     'rest_framework',
     'organizations',
     'south',
