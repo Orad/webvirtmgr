@@ -1,10 +1,11 @@
 from hotqueue import HotQueue
-from webvirtmgr.utils.util import get_connection
+
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
 from organizations.models import Organization
+from webvirtmgr.utils.util import get_connection
 
 
 class Compute(models.Model):
@@ -14,7 +15,8 @@ class Compute(models.Model):
     password = models.CharField(max_length=14, blank=True, null=True)
     type = models.IntegerField()
     organization = models.ForeignKey(Organization, related_name="compute_organization")
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    
     def __unicode__(self):
         return self.hostname
 
