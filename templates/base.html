@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.glyphicons.css" %}">
     <link href="{% static "css/webvirtmgr.css" %}" rel="stylesheet">
     {% block style %}{% endblock %}
 </head>
@@ -39,9 +40,22 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated or user.is_authenticated %}
-                    <li class="">
-                        <a href="{% url 'account_logout' %}">{% trans "Sign out" %}</a>
-                    </li>
+                    
+                    
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account Settings  <span class="glyphicon glyphicon-cog pull-right"> </span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'userinfo' %}">{% trans "User Info" %} <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'account_change_password' %}">{% trans "Change Password" %} <span class="glyphicon glyphicon-wrench pull-right"></span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'account_deactivate' %}">{% trans "Close Account" %}<span class="glyphicon glyphicon-lock pull-right"> </span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'account_logout' %}">Sign Out <span class=" glyphicon glyphicon-off pull-right"></span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 {% else %}
                     <li class="">
                         <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>

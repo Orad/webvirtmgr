@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "Close Account" %}{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{% trans "Close Account" %}</h1>
+    </div>
+    <form action="{% url 'account_deactivate' %}" method="post" >
+            {% csrf_token %}
+            <h4>Need to close your account? Click below and our support team will make sure everything is taken care of . </h4>
+            <div class="page-header"></div>
+            <button class="btn btn-sm btn-danger pull-right" type="submit">{% trans "Close Account" %}</button>
+        </form>
+    
+{% endblock %}
+
+
+            

@@ -218,6 +218,7 @@ INSTALLED_APPS = (
     'servers',
     'instance',
     'create',
+    'users',
     'gunicorn',
     'restrict',
     'dashboard',
